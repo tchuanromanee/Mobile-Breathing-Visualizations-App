@@ -1,0 +1,17 @@
+body {
+    background-color: #EEEEEE;
+    font-size: 12pt;
+    font-family: sans-serif, arial;
+}
+
+
+/* Div definitions */
+/* The div is an ID because maincontent will only occur once */
+#maincontent {
+    position: relative;
+    padding: 15px;
+    margin: auto;
+    background-color: white;
+    width: 60%;
+    text-align: justify;
+}
