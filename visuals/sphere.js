@@ -2,8 +2,8 @@ var circleRep = d3.select("#myCircle")
 circleRep.attr("r", 10);
 circleRep.style("fill", "steelblue"); 
 circleRep.attr("cx", 50)
-    .attr("cy", 50).on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-        .on("mousedown", sphereVisualizationIn);
+    .attr("cy", 50)//.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+    .on("mousedown", sphereVisualizationIn);
 
 var totalTimems = 30000;
 
