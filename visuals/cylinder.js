@@ -1,31 +1,34 @@
-var backgroundRect = d3.select("#example").
-  append("svg:svg");
-backgroundRect.append("svg:rect").
-  attr("x", 100).
-  attr("y", 100).
-  attr("height", 100).
-  attr("width", 200);
-  
- //---------------old stuff below------------------- 
-  
- var circleRep = d3.select("#myCircle")
-circleRep.attr("r", 10);
-circleRep.style("fill", "steelblue"); 
-circleRep.attr("cx", 50)
-    .attr("cy", 50)//.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-    .on("mousedown", sphereVisualizationIn);
+// Draw background rectangle
+//Make an SVG Container
+ var svgContainer = d3.select("#example").append("svg")
+                                     .attr("width", 200)
+                                     .attr("height", 200);
+ 
+ //Draw the Rectangle
+ var rectangle = svgContainer.append("rect")
+                             .attr("x", 10)
+                             .attr("y", 10)
+                            .attr("width", 50)
+                            .attr("height", 100)				
+							.style("fill", "steelblue")
+							.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+							.on("mousedown", inhale);
 
+  
+  
 var totalTimems = 30000;
 var numPhases = 0;
 var phaseDurationms = 4000; // 4 sec per phase
 var totalNumPhases = totalTimems / phaseDurationms;
 
 var phase = "Tap to Start";
-
 d3.select("p").html(phase);       // update phase text
+  
+ //---------------old stuff below------------------- 
 
 
-function sphereVisualizationIn(){
+
+function inhale(){
 	numPhases++;
 	if (numPhases >= totalNumPhases) {
 		phase = "Exercise Completed";
