@@ -20,7 +20,7 @@
                             .attr("width", 50)
                             .attr("height", 200)				
 							.style("fill", "steelblue")
-							.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+							//.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
 							.on("mousedown", inhale);
 
  //Draw the top background Ellipse
@@ -41,8 +41,17 @@ var totalNumPhases = totalTimems / phaseDurationms;
 
 var phase = "Tap to Start";
 d3.select("p").html(phase);       // update phase text
+
+	  //Draw the bottom overlay Ellipse
+	var bottomOverlayEllipse = svgContainer.append("ellipse")
+                          .attr("cx", 35)
+                          .attr("cy", 211)
+                         .attr("rx", 25)
+                         .attr("ry", 10)
+						 .style("fill", "green")
+						// .style("stroke", "black")
+						 .style("opacity", "0"); //default invisible
   
- //---------------old stuff below------------------- 
 
 
 
@@ -55,16 +64,20 @@ function inhale(){
 	}
 	phase = "Inhale";
 	d3.select("p").html(phase);
-    d3.select(this)
-		.style("fill", "green");
-	d3.select(this)
+	
+	bottomOverlayEllipse.style("opacity", "1");
+ //   d3.select(this)
+	//	.style("fill", "green");
+/* 	d3.select(this)
       .transition()
         .delay(0)            
         .duration(phaseDurationms)
         .attr("r", 40)
-		.on("end", sphereVisualizationHold);
+		.on("end", sphereVisualizationHold); */
 };
 
+
+ //---------------old stuff below------------------- 
 function sphereVisualizationHold() {
 	numPhases++;
 	phase = "Hold";
