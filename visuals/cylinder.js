@@ -4,6 +4,15 @@
 	.attr("width", 200)
 	.attr("height", 250);
  
+  //Draw the bottom background Ellipse
+ var bottomBgEllipse = svgContainer.append("ellipse")
+                          .attr("cx", 35)
+                          .attr("cy", 211)
+                         .attr("rx", 25)
+                         .attr("ry", 10)
+						 .style("fill", "steelblue")
+						 .style("stroke", "black");
+						 
  //Draw the Rectangle
  var rectangle = svgContainer.append("rect")
                              .attr("x", 10)
@@ -23,14 +32,7 @@
 						 .style("fill", "steelblue")
 						 .style("stroke", "black");
 
- //Draw the bottom background Ellipse
- var bottomBgEllipse = svgContainer.append("ellipse")
-                          .attr("cx", 35)
-                          .attr("cy", 211)
-                         .attr("rx", 25)
-                         .attr("ry", 10)
-						 .style("fill", "steelblue")
-						 .style("stroke", "black");
+
   
 var totalTimems = 30000;
 var numPhases = 0;
