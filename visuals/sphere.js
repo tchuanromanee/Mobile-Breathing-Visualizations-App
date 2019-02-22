@@ -18,6 +18,8 @@ d3.select("p").html(phase);       // update phase text
 function sphereVisualizationIn(){
 	numPhases++;
 	if (numPhases >= totalNumPhases) {
+		phase = "Exercise Completed";
+		d3.select("p").html(phase);
 		return;
 	}
 	phase = "Inhale";
