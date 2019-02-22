@@ -13,8 +13,8 @@
 						 .style("fill", "steelblue")
 						 .style("stroke", "black");
 						 
- //Draw the Rectangle
- var rectangle = svgContainer.append("rect")
+ //Draw the background Rectangle
+ var bgRectangle = svgContainer.append("rect")
                              .attr("x", 10)
                              .attr("y", 10)
                             .attr("width", 50)
@@ -22,6 +22,17 @@
 							.style("fill", "steelblue")
 							//.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
 							.on("mousedown", inhale);
+
+ //Draw the Rectangle
+ var overlayRectangle = svgContainer.append("rect")
+                             .attr("x", 10)
+                             .attr("y", 10)
+                            .attr("width", 50)
+                            .attr("height", 0)				
+							.style("fill", "green")
+							//.on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+							//.on("mousedown", inhale);
+						.style("opacity", "0"); //default invisible
 
  //Draw the top background Ellipse
  var topBgEllipse = svgContainer.append("ellipse")
@@ -32,7 +43,15 @@
 						 .style("fill", "steelblue")
 						 .style("stroke", "black");
 
-
+ //Draw the bottom overlay Ellipse
+var bottomOverlayEllipse = svgContainer.append("ellipse")
+					  .attr("cx", 35)
+					  .attr("cy", 211)
+					 .attr("rx", 25)
+					 .attr("ry", 10)
+					 .style("fill", "green")
+					// .style("stroke", "black")
+					 .style("opacity", "0"); //default invisible
   
 var totalTimems = 30000;
 var numPhases = 0;
@@ -42,15 +61,7 @@ var totalNumPhases = totalTimems / phaseDurationms;
 var phase = "Tap to Start";
 d3.select("p").html(phase);       // update phase text
 
-	  //Draw the bottom overlay Ellipse
-	var bottomOverlayEllipse = svgContainer.append("ellipse")
-                          .attr("cx", 35)
-                          .attr("cy", 211)
-                         .attr("rx", 25)
-                         .attr("ry", 10)
-						 .style("fill", "green")
-						// .style("stroke", "black")
-						 .style("opacity", "0"); //default invisible
+ 
   
 
 
@@ -65,7 +76,27 @@ function inhale(){
 	phase = "Inhale";
 	d3.select("p").html(phase);
 	
-	bottomOverlayEllipse.style("opacity", "1");
+	//Transition for bottom ellipse
+	bottomOverlayEllipse.style("opacity", "1")
+		.transition()
+			.delay(0)
+			.duration(phaseDurationms)
+			.attr("cy", 11);
+	
+	//transition for rectangle
+	overlayRectangle.style("opacity", "1")
+		.attr("y", 0)
+//		.attr("height", 0)
+		.transition()
+		.delay(0)
+		//.ease("linear")
+         .duration(phaseDurationms)
+		 .attr("height", 200)
+		 .attr("y", 10);
+		 // add on end later
+	
+
+	
  //   d3.select(this)
 	//	.style("fill", "green");
 /* 	d3.select(this)
