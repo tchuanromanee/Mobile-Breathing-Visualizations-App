@@ -87,33 +87,37 @@ function inhale(){
 	//transition for rectangle
 	overlayRectangle.style("opacity", "1")
 		.attr("y", 210)
-//		.attr("height", 0)
 		.transition()
 		.delay(0)
-		//.ease("linear")
          .duration(phaseDurationms)
 		 .attr("height", 200)
 		 .attr("y", 10);
-		 // .on("end", sphereVisualizationHold);
+		 .on("end", hold);
 };
 
 
- //---------------old stuff below------------------- 
-function sphereVisualizationHold() {
+function hold() {
 	numPhases++;
 	phase = "Hold";
 	d3.select("p").html(phase);
-	d3.select(this).style("fill", "yellow");
-	console.log(d3.select(this).attr("r"));
-	if (d3.select(this).attr("r") == 40) {
-		d3.select(this).transition().delay(phaseDurationms).on("end",sphereVisualizationOut);
+	//console.log(d3.select(this).attr("r"));
+	//Make all components yellow
+	bottomFixedEllipse.style("fill", "yellow");
+	bottomOverlayEllipse.style("fill", "yellow");
+	//transition for rectangle
+	overlayRectangle.style("fill", "yellow");
+	if (overlayRectangle.attr("height") == 200) {
+		//inhale then hold
+
+		overlayRectangle.transition().delay(phaseDurationms).on("end",exhale);
 	}
 	else {
-		d3.select(this).transition().delay(phaseDurationms).on("end",sphereVisualizationIn);
+		overlayRectangle.transition().delay(phaseDurationms).on("end",inhale);
 	}
 }
 
-function sphereVisualizationOut(){
+ //---------------old stuff below------------------- 
+function exhale(){
 	numPhases++;
 	phase = "Exhale";
 	d3.select("p").html(phase);
