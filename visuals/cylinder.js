@@ -10,7 +10,7 @@
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "steelblue")
+	 .style("fill", "white")
 	 .style("stroke", "black");
 						 
  //Draw the background Rectangle
@@ -19,7 +19,7 @@
 	.attr("y", 10)
 	.attr("width", 50)
 	.attr("height", 200)				
-	.style("fill", "steelblue")
+	.style("fill", "white")
 	.on("mousedown", inhale);
 
  //Draw the Rectangle
@@ -28,7 +28,7 @@
 	.attr("y", 10)
 	.attr("width", 50)
 	.attr("height", 0)				
-	.style("fill", "green")
+	.style("fill", "steelblue")
 	.style("opacity", "0"); //default invisible
 
  //Draw the top background Ellipse
@@ -37,7 +37,7 @@
 	 .attr("cy", 11)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "steelblue")
+	 .style("fill", "white")
 	 .style("stroke", "black");
 
  //Draw the bottom overlay Ellipse
@@ -46,7 +46,7 @@ var bottomOverlayEllipse = svgContainer.append("ellipse")
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "green")
+	 .style("fill", "steelblue")
 	 .style("opacity", "0"); //default invisible
 	 
 	  //Draw the bottom overlay Ellipse
@@ -55,7 +55,7 @@ var bottomFixedEllipse = svgContainer.append("ellipse")
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "green")
+	 .style("fill", "steelblue")
 	 .style("opacity", "0"); //default invisible
   
 var totalTimems = 30000;
@@ -91,7 +91,7 @@ function inhale(){
 		.delay(0)
          .duration(phaseDurationms)
 		 .attr("height", 200)
-		 .attr("y", 10);
+		 .attr("y", 10)
 		 .on("end", hold);
 };
 
@@ -102,13 +102,13 @@ function hold() {
 	d3.select("p").html(phase);
 	//console.log(d3.select(this).attr("r"));
 	//Make all components yellow
-	bottomFixedEllipse.style("fill", "yellow");
-	bottomOverlayEllipse.style("fill", "yellow");
+	//bottomFixedEllipse.style("fill", "yellow");
+//	bottomOverlayEllipse.style("fill", "yellow");
 	//transition for rectangle
-	overlayRectangle.style("fill", "yellow");
-	if (overlayRectangle.attr("height") == 200) {
-		//inhale then hold
-
+//	overlayRectangle.style("fill", "yellow");
+	if (overlayRectangle.attr("height") == 200 && overlayRectangle.attr("y") == 10) {
+		//inhale then hold, then time for exhale
+		
 		overlayRectangle.transition().delay(phaseDurationms).on("end",exhale);
 	}
 	else {
@@ -121,11 +121,22 @@ function exhale(){
 	numPhases++;
 	phase = "Exhale";
 	d3.select("p").html(phase);
-     d3.select(this)
-		.style("fill", "red");
-	d3.select(this)
+	
+	//Transition for bottom ellipse
+	bottomOverlayEllipse
 		.transition()
+			.delay(0)
+			.duration(phaseDurationms)
+			.attr("cy", 211);
+	
+	//transition for rectangle
+	overlayRectangle
+		.attr("y", 10)
+		.transition()
+		.delay(0)
         .duration(phaseDurationms)
-        .attr("r", 10)
-		.on("end", sphereVisualizationHold);
+		.attr("height", 0)
+		.attr("y", 210)
+		.on("end", hold);
+		 
 };
