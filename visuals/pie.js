@@ -10,10 +10,11 @@ var inhaleArc = d3.arc()
     .startAngle(0) //converting from degs to radians
     .endAngle(Math.PI/2); //just radians
 
-svgContainer.append("path")
+var inhaleArcElem = svgContainer.append("path")
     .attr("d", inhaleArc)
     .attr("transform", "translate(100,100)")
-	.style("fill", "green");
+	.style("fill", "green")
+	.on("mousedown", inhale);
 	
 // Draw inhale hold arc	
 var inhaleHoldArc = d3.arc()
@@ -22,7 +23,7 @@ var inhaleHoldArc = d3.arc()
     .startAngle(Math.PI/2) //converting from degs to radians
     .endAngle(Math.PI); //just radians
 
-svgContainer.append("path")
+var inhaleHoldArcElem = svgContainer.append("path")
     .attr("d", inhaleHoldArc)
     .attr("transform", "translate(100,100)")
 	.style("fill", "yellow");
@@ -35,7 +36,7 @@ var exhaleArc = d3.arc()
     .startAngle(Math.PI) //converting from degs to radians
     .endAngle(3 * Math.PI/2); //just radians
 
-svgContainer.append("path")
+var exhaleArcElem = svgContainer.append("path")
     .attr("d", exhaleArc)
     .attr("transform", "translate(100,100)")
 	.style("fill", "red");
@@ -47,7 +48,7 @@ var exhaleHoldArc = d3.arc()
     .startAngle(3 * Math.PI/2) //converting from degs to radians
     .endAngle(2 * Math.PI); //just radians
 
-svgContainer.append("path")
+var exhaleHoldArcElem = svgContainer.append("path")
     .attr("d", exhaleHoldArc)
     .attr("transform", "translate(100,100)")
 	.style("fill", "yellow");
@@ -69,24 +70,18 @@ function inhale(){
 	}
 	phase = "Inhale";
 	d3.select("p").html(phase);
-	
-	bottomFixedEllipse.style("opacity", "1");
-	//Transition for bottom ellipse
-	bottomOverlayEllipse.style("opacity", "1")
-		.transition()
-			.delay(0)
-			.duration(phaseDurationms)
-			.attr("cy", 11);
-	
-	//transition for rectangle
-	overlayRectangle.style("opacity", "1")
-		.attr("y", 210)
-		.transition()
-		.delay(0)
-         .duration(phaseDurationms)
-		 .attr("height", 200)
-		 .attr("y", 10)
-		 .on("end", hold);
+	inhaleArcElem.transition()
+		.duration(function(d, i) {
+		  return i * 800;
+		})
+			.attrTween('d', function(d) {
+	   var i = d3.interpolate(this.startAngle+0.1, this.endAngle);
+	   return function(t) {
+		   this.endAngle = i(t);
+		 return arc(d);
+	   }
+		});
+	//	 .on("end", hold);
 };
 
 
