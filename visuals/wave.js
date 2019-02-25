@@ -1,6 +1,6 @@
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
-	.attr("width", 200)
+	//.attr("width", 200)
 	.attr("height", 250);
 	
   //Draw the steady line
@@ -19,7 +19,7 @@
 	.on("mousedown", inhale);
   
   
- var lineGenerator = d3.line();
+ var lineGenerator = d3.line().curve(d3.curveCardinal);
  
  var points = [
   [0, 80],
