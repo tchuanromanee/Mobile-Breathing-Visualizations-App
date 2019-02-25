@@ -2,21 +2,41 @@
  var svgContainer = d3.select("#example").append("svg")
 	.attr("width", 200)
 	.attr("height", 250);
- 
-		 
- //Draw the steady line
- var bgRectangle = svgContainer.append("line")
+	
+  //Draw the steady line
+ var steadyLine = svgContainer.append("line")
 	.attr("x1", 100)
 	.attr("y1", 0)
 	.attr("x2", 100)
 	.attr("y2", 200)				
 	.style("stroke", "black")
-	.style("stroke-width", "5")
-	.on("mousedown", inhale);
+	.style("stroke-width", "5");
 	 
 	  //Draw the bottom overlay Ellipse
-
+ var curvedPath = svgContainer.append("path")
+	.style("stroke", "black")
+	.style("stroke-width", "5")
+	.on("mousedown", inhale);
   
+  
+ var lineGenerator = d3.line();
+ 
+ var points = [
+  [0, 80],
+  [100, 100],
+  [200, 30],
+  [300, 50],
+  [400, 40],
+  [500, 80]
+];
+
+var pathData = lineGenerator(points);
+// pathData is "M0,80L100,100L200,30L300,50L400,40L500,80"
+
+curvedPath
+  .attr('d', pathData);
+		 
+
 var totalTimems = 30000;
 var numPhases = 0;
 var phaseDurationms = 4000; // 4 sec per phase
