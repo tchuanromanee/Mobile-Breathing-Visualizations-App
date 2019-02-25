@@ -71,15 +71,13 @@ function inhale(){
 	phase = "Inhale";
 	d3.select("p").html(phase);
 	inhaleArcElem.transition()
-		.duration(function(d, i) {
-		  return i * 800;
-		})
-			.attrTween('d', function(d) {
-	   var i = d3.interpolate(this.startAngle+0.1, this.endAngle);
-	   return function(t) {
-		   this.endAngle = i(t);
-		 return arc(d);
-	   }
+		.duration(phaseDurationms)
+		.attrTween('d', function(d) {
+		   var i = d3.interpolate(0+0.1, Math.PI/2); //startangle, endangle
+		   return function(t) {
+			   endAngle = i(t);
+			 return arc(d);
+		   }
 		});
 	//	 .on("end", hold);
 };
