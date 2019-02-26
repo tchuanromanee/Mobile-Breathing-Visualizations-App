@@ -159,14 +159,12 @@ function hold() {
 	
 	if (prevPhase.localeCompare("Inhale") == 0) {
 	//	inhale then hold, then time for exhale
-		console.log("Prev in hale, then exhale");
 	overlayArcElem.transition()
       .duration(phaseDurationms)
       .attrTween("d", arcTween(Math.PI))
 		.on("end", exhale);
 	}
 	else {
-		console.log("Prev ex hale, then inhale");
 	overlayArcElem.transition()
       .duration(phaseDurationms)
       .attrTween("d", arcTween(2* Math.PI))
