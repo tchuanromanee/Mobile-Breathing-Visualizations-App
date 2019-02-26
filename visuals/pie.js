@@ -96,7 +96,7 @@ function inhale(){
 	phase = "Inhale";
 	d3.select("p").html(phase);
 	overlayArcElem.transition()
-      .duration(750)
+      .duration(phaseDurationms)
       .attrTween("d", arcTween(Math.PI/2))
 		.on("end", hold);
 };
@@ -161,20 +161,19 @@ function hold() {
 	//	inhale then hold, then time for exhale
 		console.log("Prev in hale, then exhale");
 	overlayArcElem.transition()
-      .duration(750)
+      .duration(phaseDurationms)
       .attrTween("d", arcTween(Math.PI))
 		.on("end", exhale);
 	}
 	else {
 		console.log("Prev ex hale, then inhale");
 	overlayArcElem.transition()
-      .duration(750)
+      .duration(phaseDurationms)
       .attrTween("d", arcTween(2* Math.PI))
 		.on("end", inhale);
 	}
 }
 
- //---------------old stuff below------------------- 
 function exhale(){
 	numPhases++;
 	phase = "Exhale";
@@ -182,7 +181,7 @@ function exhale(){
 	
 	
 	overlayArcElem.transition()
-      .duration(750)
+      .duration(phaseDurationms)
       .attrTween("d", arcTween(3 * Math.PI/2))
 		.on("end", hold);
 		 
