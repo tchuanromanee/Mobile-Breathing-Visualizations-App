@@ -152,26 +152,26 @@ function arcTween(newAngle) {
 }
 
 function hold() {
+	var prevPhase = phase;
 	numPhases++;
 	phase = "Hold";
 	d3.select("p").html(phase);
-	console.log(overlayArcElem.endAngle);
 	
-	  
-	//if (overlayArcElem.endAngle == Math.PI/2) {
-		//inhale then hold, then time for exhale
-		
+	if (prevPhase.localeCompare("Inhale") == 0) {
+	//	inhale then hold, then time for exhale
+		console.log("Prev in hale, then exhale");
 	overlayArcElem.transition()
       .duration(750)
       .attrTween("d", arcTween(Math.PI))
 		.on("end", exhale);
-//	}
-	//else {
-//	overlayArcElem.transition()
-//      .duration(750)
-//      .attrTween("d", arcTween(2* Math.PI))
-//		.on("end", inhale);
-//	}
+	}
+	else {
+		console.log("Prev ex hale, then inhale");
+	overlayArcElem.transition()
+      .duration(750)
+      .attrTween("d", arcTween(2* Math.PI))
+		.on("end", inhale);
+	}
 }
 
  //---------------old stuff below------------------- 
