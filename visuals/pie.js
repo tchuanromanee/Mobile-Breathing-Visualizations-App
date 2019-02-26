@@ -97,8 +97,35 @@ function inhale(){
 	d3.select("p").html(phase);
 	overlayArcElem.transition()
       .duration(phaseDurationms)
-      .attrTween("d", arcTween(Math.PI/2))
-		.on("end", hold);
+      .attrTween("d", arcTween(Math.PI/2));
+	  
+	//Hold 
+	var prevPhase = phase;
+	numPhases++;
+	phase = "Hold";
+	d3.select("p").html(phase);
+	
+	//	inhale then hold, then time for exhale
+	overlayArcElem.transition()
+      .duration(phaseDurationms)
+      .attrTween("d", arcTween(Math.PI));
+	  
+	
+//exhale
+	numPhases++;
+	phase = "Exhale";
+	d3.select("p").html(phase);
+	
+	
+	overlayArcElem.transition()
+      .duration(phaseDurationms)
+      .attrTween("d", arcTween(3 * Math.PI/2))
+		 
+	//hold
+	overlayArcElem.transition()
+      .duration(phaseDurationms)
+      .attrTween("d", arcTween(2* Math.PI))
+	  .on("end", inhale);
 };
 
 // Returns a tween for a transition’s "d" attribute, transitioning any selected
@@ -150,37 +177,3 @@ function arcTween(newAngle) {
     };
   };
 }
-
-function hold() {
-	var prevPhase = phase;
-	numPhases++;
-	phase = "Hold";
-	d3.select("p").html(phase);
-	
-	if (prevPhase.localeCompare("Inhale") == 0) {
-	//	inhale then hold, then time for exhale
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(Math.PI))
-		.on("end", exhale);
-	}
-	else {
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(2* Math.PI))
-		.on("end", inhale);
-	}
-}
-
-function exhale(){
-	numPhases++;
-	phase = "Exhale";
-	d3.select("p").html(phase);
-	
-	
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(3 * Math.PI/2))
-		.on("end", hold);
-		 
-};
