@@ -25,7 +25,8 @@ var inhaleArcElem = svgContainer.append("path")
     .datum({endAngle: Math.PI/2})
     .attr("transform", "translate(100,100)")
 	.style("fill", "green")
-	.attr("d", inhaleArc);
+	.attr("d", inhaleArc)
+	.on("mousedown", inhale);
 //	.transition()
   //    .duration(750)
      // .attrTween("d", arcTween(Math.random() * Math.PI));
@@ -37,6 +38,7 @@ var inhaleHoldArc = d3.arc()
     .startAngle(Math.PI/2) //converting from degs to radians
     .endAngle(Math.PI); //just radians
 
+//TODO: Group all arcs
 var inhaleHoldArcElem = svgContainer.append("path")
     .attr("d", inhaleHoldArc)
     .attr("transform", "translate(100,100)")
@@ -68,7 +70,7 @@ var exhaleHoldArcElem = svgContainer.append("path")
 	.style("fill", "yellow");
 	
 var overlayArcElem = svgContainer.append("path")
-    .datum({endAngle: Math.PI/2})
+    .datum({endAngle: 0})
     .style("fill", "green")
 	.style("stroke", "black")
 	.attr("transform", "translate(100,100)")
