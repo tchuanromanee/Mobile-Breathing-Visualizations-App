@@ -82,32 +82,48 @@ d3.select("p").html(phase);       // update phase text
 
 function inhale(){
 	numPhases++;
-	if (numPhases >= totalNumPhases) {
+	if (numPhases > totalNumPhases) {
 		phase = "Exercise Completed";
 		d3.select("p").html(phase);
 		return;
 	}
+	console.log(numPhases);
 	if (numPhases % 4 == 1) {
 		if (numPhases > 1) {
 			overlayArcElem.remove();
+			overlayArcElem = svgContainer.append("path")
+    .datum({endAngle: 0})
+    .style("fill", "#EEEEEE")
+	.style("stroke", "black")
+	.attr("transform", "translate(100,100)")
+	//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .attr("d", arc)
+	.on("mousedown", inhale);
 		}
 		phase = "Inhale";
+		phaseMultiplier = numPhases % 4;
 	}
 	else if (numPhases % 4 == 2) {
 		phase = "Hold";
+		phaseMultiplier = numPhases % 4;
 	}
 	else if (numPhases % 4 == 3) {
 		phase = "Exhale";
+		phaseMultiplier = numPhases % 4;
+	}
+	else if (numPhases % 4 == 0) {
+		phase = "Hold";
+		phaseMultiplier = 4;
 	}
 	else {
-		phase = "Hold";
+		phase = "BLAH";
 	}
 	d3.select("p").html(phase);
 	overlayArcElem.transition()
 		.ease(d3.easeLinear)
-      .duration(16000)
-      .attrTween("d", arcTween(2 * Math.PI))
-	  .on("end", inhale);
+		.duration(phaseDurationms)
+		.attrTween("d", arcTween(phaseMultiplier * Math.PI/2))
+		.on("end", inhale);
 	 
 };
 
