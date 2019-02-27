@@ -66,11 +66,11 @@ var exhaleHoldArcElem = svgContainer.append("path")
 var overlayArcElem = svgContainer.append("path")
     .datum({endAngle: 0})
     .style("fill", "#EEEEEE")
-	.style("stroke", "black")
+	.style("stroke", "#EEEEEE")
+	.style("opacity", 0.75)
 	.attr("transform", "translate(100,100)")
 	//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-    .attr("d", arc)
-	.on("mousedown", inhale);
+    .attr("d", arc);
 
 var totalTimems = 30000;
 var numPhases = 1;
@@ -93,13 +93,13 @@ function inhale(){
 		if (numPhases > 1) {
 			overlayArcElem.remove();
 			overlayArcElem = svgContainer.append("path")
-    .datum({endAngle: 0})
-    .style("fill", "#EEEEEE")
-	.style("stroke", "black")
-	.attr("transform", "translate(100,100)")
-	//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-    .attr("d", arc)
-	.on("mousedown", inhale);
+			.datum({endAngle: 0})
+			.style("fill", "#EEEEEE")
+			.style("stroke", "#EEEEEE")
+			.style("opacity", 0.75)
+			.attr("transform", "translate(100,100)")
+			//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+			.attr("d", arc);
 		}
 		phase = "Inhale";
 		phaseMultiplier = numPhases % 4;
