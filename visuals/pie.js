@@ -97,8 +97,9 @@ function inhale(){
 	d3.select("p").html(phase);
 	overlayArcElem.transition()
       .duration(phaseDurationms)
-      .attrTween("d", arcTween(Math.PI/2));
-	  
+      .attrTween("d", arcTween(numPhases * Math.PI/2))
+	  .on("end", inhale);
+	  /* 
 	//Hold 
 	var prevPhase = phase;
 	numPhases++;
@@ -125,7 +126,7 @@ function inhale(){
 	overlayArcElem.transition()
       .duration(phaseDurationms)
       .attrTween("d", arcTween(2* Math.PI))
-	  .on("end", inhale);
+	  .on("end", inhale); */
 };
 
 // Returns a tween for a transition’s "d" attribute, transitioning any selected
