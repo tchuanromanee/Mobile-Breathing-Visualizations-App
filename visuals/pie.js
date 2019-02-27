@@ -12,7 +12,6 @@ var inhaleArc = d3.arc()
     .innerRadius(innerRadiusArc)
     .outerRadius(outerRadiusArc)
     .startAngle(0); //converting from degs to radians
-  //  .endAngle(Math.PI/2); //just radians
 
   var arc = d3.arc()
     .innerRadius(innerRadiusArc)
@@ -27,9 +26,6 @@ var inhaleArcElem = svgContainer.append("path")
 	.style("fill", "green")
 	.attr("d", inhaleArc)
 	.on("mousedown", inhale);
-//	.transition()
-  //    .duration(750)
-     // .attrTween("d", arcTween(Math.random() * Math.PI));
 	
 // Draw inhale hold arc	
 var inhaleHoldArc = d3.arc()
@@ -93,40 +89,24 @@ function inhale(){
 		d3.select("p").html(phase);
 		return;
 	}
-	phase = "Inhale";
+	if (numPhases % 4 == 1) {
+		phase = "Inhale";
+	}
+	else if (numPhases % 4 == 2) {
+		phase = "Hold";
+	}
+	else if (numPhases % 4 == 3) {
+		phase = "Exhale";
+	}
+	else {
+		phase = "Hold";
+	}
 	d3.select("p").html(phase);
 	overlayArcElem.transition()
       .duration(phaseDurationms)
       .attrTween("d", arcTween(numPhases * Math.PI/2))
 	  .on("end", inhale);
-	  /* 
-	//Hold 
-	var prevPhase = phase;
-	numPhases++;
-	phase = "Hold";
-	d3.select("p").html(phase);
-	
-	//	inhale then hold, then time for exhale
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(Math.PI));
-	  
-	
-//exhale
-	numPhases++;
-	phase = "Exhale";
-	d3.select("p").html(phase);
-	
-	
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(3 * Math.PI/2))
-		 
-	//hold
-	overlayArcElem.transition()
-      .duration(phaseDurationms)
-      .attrTween("d", arcTween(2* Math.PI))
-	  .on("end", inhale); */
+	 
 };
 
 // Returns a tween for a transition’s "d" attribute, transitioning any selected
