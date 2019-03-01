@@ -77,6 +77,7 @@ var overlayArcElem = svgContainer.append("path")
 	//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .attr("d", arc);
 
+	var phaseParagraph = d3.select("#example").append("p");
 var totalTimems = 30000;
 var numPhases = 1;
 var phaseDurationms = 4000; // 4 sec per phase
@@ -84,13 +85,13 @@ var totalNumPhases = Math.round(totalTimems / phaseDurationms);
 console.log(totalNumPhases);
 
 var phase = "Tap to Start";
-d3.select("p").html(phase);       // update phase text
+phaseParagraph.html(phase);       // update phase text
 
 function inhale(){
 	
 	if (numPhases > totalNumPhases) {
 		phase = "Exercise Completed";
-		d3.select("p").html(phase);
+		phaseParagraph.html(phase);
 		return;
 	}
 	console.log(numPhases);
@@ -124,7 +125,7 @@ function inhale(){
 	else {
 		phase = "BLAH";
 	}
-	d3.select("p").html(phase);
+	phaseParagraph.html(phase);
 	numPhases++;
 	overlayArcElem.transition()
 		.ease(d3.easeLinear)
