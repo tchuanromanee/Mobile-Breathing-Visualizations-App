@@ -1,3 +1,7 @@
+// define colors
+var shapeFillColor = "#50b2cf";
+var backgroundColor = "white";
+
 // Draw background rectangle
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
@@ -10,7 +14,7 @@
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "white")
+	 .style("fill", backgroundColor)
 	 .style("stroke", "black");
 						 
  //Draw the background Rectangle
@@ -19,7 +23,7 @@
 	.attr("y", 10)
 	.attr("width", 50)
 	.attr("height", 200)				
-	.style("fill", "white")
+	.style("fill", backgroundColor)
 	.on("mousedown", inhale);
 
  //Draw the Rectangle
@@ -28,7 +32,7 @@
 	.attr("y", 10)
 	.attr("width", 50)
 	.attr("height", 0)				
-	.style("fill", "steelblue")
+	.style("fill", shapeFillColor)
 	.style("opacity", "0"); //default invisible
 
  //Draw the top background Ellipse
@@ -37,7 +41,7 @@
 	 .attr("cy", 11)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "white")
+	 .style("fill", backgroundColor)
 	 .style("stroke", "black");
 
  //Draw the bottom overlay Ellipse
@@ -46,7 +50,7 @@ var bottomOverlayEllipse = svgContainer.append("ellipse")
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "steelblue")
+	 .style("fill", shapeFillColor)
 	 .style("opacity", "0"); //default invisible
 	 
 	  //Draw the bottom overlay Ellipse
@@ -55,7 +59,7 @@ var bottomFixedEllipse = svgContainer.append("ellipse")
 	 .attr("cy", 211)
 	 .attr("rx", 25)
 	 .attr("ry", 10)
-	 .style("fill", "steelblue")
+	 .style("fill", shapeFillColor)
 	 .style("opacity", "0"); //default invisible
   
 var totalTimems = 30000;
@@ -64,17 +68,21 @@ var phaseDurationms = 4000; // 4 sec per phase
 var totalNumPhases = totalTimems / phaseDurationms;
 
 var phase = "Tap to Start";
-d3.select("p").html(phase);       // update phase text
+var phaseParagraph = d3.select("#example").append("p");//.style("text-align", "center");
+						 
+
+//phaseParagraph.html(phase);       // update phase text
+phaseParagraph.html(phase);
 
 function inhale(){
 	numPhases++;
 	if (numPhases >= totalNumPhases) {
 		phase = "Exercise Completed";
-		d3.select("p").html(phase);
+		phaseParagraph.html(phase);
 		return;
 	}
 	phase = "Inhale";
-	d3.select("p").html(phase);
+	phaseParagraph.html(phase);
 	
 	bottomFixedEllipse.style("opacity", "1");
 	//Transition for bottom ellipse
@@ -99,16 +107,10 @@ function inhale(){
 function hold() {
 	numPhases++;
 	phase = "Hold";
-	d3.select("p").html(phase);
-	//console.log(d3.select(this).attr("r"));
-	//Make all components yellow
-	//bottomFixedEllipse.style("fill", "yellow");
-//	bottomOverlayEllipse.style("fill", "yellow");
-	//transition for rectangle
-//	overlayRectangle.style("fill", "yellow");
+	phaseParagraph.html(phase);
+	
 	if (overlayRectangle.attr("height") == 200 && overlayRectangle.attr("y") == 10) {
 		//inhale then hold, then time for exhale
-		
 		overlayRectangle.transition().delay(phaseDurationms).on("end",exhale);
 	}
 	else {
@@ -120,7 +122,7 @@ function hold() {
 function exhale(){
 	numPhases++;
 	phase = "Exhale";
-	d3.select("p").html(phase);
+	phaseParagraph.html(phase);
 	
 	//Transition for bottom ellipse
 	bottomOverlayEllipse
