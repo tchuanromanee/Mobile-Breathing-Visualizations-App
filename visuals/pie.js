@@ -8,6 +8,11 @@ var width = 960,
 	innerRadiusArc = 50,
 	outerRadiusArc = 70;
 
+// Define colors
+var inhaleColor = "#9bb64b";	
+var holdColor = "#fff156";
+var exhaleColor = "#e64631";
+	
 // Draw inhale arc	
 var inhaleArc = d3.arc()
     .innerRadius(innerRadiusArc)
@@ -22,7 +27,7 @@ var arc = d3.arc()
 var inhaleArcElem = svgContainer.append("path")	  
     .datum({endAngle: Math.PI/2})
     .attr("transform", "translate(100,100)")
-	.style("fill", "green")
+	.style("fill", inhaleColor)
 	.attr("d", inhaleArc)
 	.on("mousedown", inhale);
 	
@@ -37,7 +42,7 @@ var inhaleHoldArc = d3.arc()
 var inhaleHoldArcElem = svgContainer.append("path")
     .attr("d", inhaleHoldArc)
     .attr("transform", "translate(100,100)")
-	.style("fill", "yellow");
+	.style("fill", holdColor);
 
 // Draw exhale arc	
 var exhaleArc = d3.arc()
@@ -49,7 +54,7 @@ var exhaleArc = d3.arc()
 var exhaleArcElem = svgContainer.append("path")
     .attr("d", exhaleArc)
     .attr("transform", "translate(100,100)")
-	.style("fill", "red");
+	.style("fill", exhaleColor);
 
 // Draw exhale hold arc	
 var exhaleHoldArc = d3.arc()
@@ -61,7 +66,7 @@ var exhaleHoldArc = d3.arc()
 var exhaleHoldArcElem = svgContainer.append("path")
     .attr("d", exhaleHoldArc)
     .attr("transform", "translate(100,100)")
-	.style("fill", "yellow");
+	.style("fill", holdColor);
 	
 var overlayArcElem = svgContainer.append("path")
     .datum({endAngle: 0})
