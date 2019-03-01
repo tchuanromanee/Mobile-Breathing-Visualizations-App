@@ -1,3 +1,7 @@
+var width = 960,
+    height = 500,
+    start = Date.now();
+
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
 	//.attr("width", 200)
@@ -11,11 +15,125 @@
 	.attr("y2", 200)				
 	.style("stroke", "black")
 	.style("stroke-width", "5");
-	 
-	  //Draw the bottom overlay Ellipse
+	 var lines = [ ];
+
+var n = 1;
+var m = 70;
+console.log(d3.range(n));
+for (i in d3.range(n))
+{
+    var speed = .001 * 1 * 4;
+
+    var data = d3.range(m) 
+    lines.push({ 
+        //radius: 65*i, 
+        width: 5, 
+        height: 15,
+        speed: speed,
+        //speed: speed_scale(i),
+        index: i,
+        data: data
+    })
+
+}
+
+var xscale = d3.scaleLinear()
+    .domain([0,m])
+    .range([0, width])
+
+var omega = -.22
+function line_maker( data, speed )
+{
+    var freq = Math.PI*.4 + 3 * omega * data.index // * 3000
+    var svgline = d3.line()
+    .x(function(d,i)
+    {
+        return xscale(d);
+    })
+    .y(function(d,i)
+    {
+        var theta = freq * d/m * Math.PI * 4 
+        //console.log("sin", Math.sin(theta), d)
+        var y = data.height * (Math.sin(theta + (n-data.index) * .1 * speed * .18 ));
+        //console.log ("y", y)
+        return y
+    });
+    svgline.curve(d3.curveBasis);
+    return svgline(data.data);
+}
+
+//var spacing = 26;
+function lineEnter(d, i) {
+
+    //console.log("line enter", d)
+  d3.select(this).selectAll("path.path")
+      .data([d])
+      .enter()
+    .append("svg:path")
+      .attr("class", "path")
+      //attr("transform", function(_, i) { return "translate(" + [0, h - spacing * d.index] + ")"; })
+    .attr("transform", "translate(100,100)")
+    .attr("d", function(d,i) {
+              return line_maker( d, 0 ) 
+            }
+        )
+      .attr("stroke-width", function(e,i) { return e.width;})
+      .attr("stroke", "#fff")
+      .attr("fill", "none")
+
+   // update_spacing()
+}
+
+/* var svg = d3.select("svg")
+    .attr("width", w)
+    .attr("height", h)
+  .append("svg:g")
+    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")scale(.6)"); */
+
+var line = svgContainer.selectAll("g.line")
+    .data(lines)
+  .enter().append("svg:g")
+    .attr("class", "line")
+    .each(lineEnter);
+
+
+var sm = .39 
+
+var color = d3.scaleLinear()
+    .domain([-1, 1])
+    .interpolate(d3.interpolateRgb)
+    .range(['#fff', '#000'])
+
+var opacity = d3.scaleLinear()
+    .domain([0, n])
+    .range([1, .4])
+
+
+b = 1;
+d3.timer(function() {
+ // if(pause) return false;
+  var elapsed = Date.now() - start
+  var damp = .3
+
+  rotate = function(d,i) { 
+  var speed = sm * d.speed * elapsed * .1;
+    return "rotate(" + speed + ")"; 
+  };
+
+  line = d3.select("g.line path")
+      .attr("d", function(d,i) {
+             //var speed = a * d.speed * elapsed + .01 * d.index
+             var speed = sm * .08 * elapsed + d.index * 4 
+             return line_maker( d, speed ) 
+        })
+      .attr("stroke-opacity", function(d,i) { return opacity(d.index);})
+        
+
+});
+/* 	  //Draw the wave path
  var curvedPath = svgContainer.append("path")
 	.style("stroke", "black")
-	.style("stroke-width", "5")
+	.style("stroke-width", "4")
 	.on("mousedown", inhale);
   
   
@@ -54,24 +172,7 @@ function inhale(){
 	}
 	phase = "Inhale";
 	d3.select("p").html(phase);
-	
-	bottomFixedEllipse.style("opacity", "1");
-	//Transition for bottom ellipse
-	bottomOverlayEllipse.style("opacity", "1")
-		.transition()
-			.delay(0)
-			.duration(phaseDurationms)
-			.attr("cy", 11);
-	
-	//transition for rectangle
-	overlayRectangle.style("opacity", "1")
-		.attr("y", 210)
-		.transition()
-		.delay(0)
-         .duration(phaseDurationms)
-		 .attr("height", 200)
-		 .attr("y", 10)
-		 .on("end", hold);
+	//.on("end", hold);
 };
 
 
@@ -79,12 +180,7 @@ function hold() {
 	numPhases++;
 	phase = "Hold";
 	d3.select("p").html(phase);
-	//console.log(d3.select(this).attr("r"));
-	//Make all components yellow
-	//bottomFixedEllipse.style("fill", "yellow");
-//	bottomOverlayEllipse.style("fill", "yellow");
-	//transition for rectangle
-//	overlayRectangle.style("fill", "yellow");
+
 	if (overlayRectangle.attr("height") == 200 && overlayRectangle.attr("y") == 10) {
 		//inhale then hold, then time for exhale
 		
@@ -95,27 +191,10 @@ function hold() {
 	}
 }
 
- //---------------old stuff below------------------- 
 function exhale(){
 	numPhases++;
 	phase = "Exhale";
 	d3.select("p").html(phase);
-	
-	//Transition for bottom ellipse
-	bottomOverlayEllipse
-		.transition()
-			.delay(0)
-			.duration(phaseDurationms)
-			.attr("cy", 211);
-	
-	//transition for rectangle
-	overlayRectangle
-		.attr("y", 10)
-		.transition()
-		.delay(0)
-        .duration(phaseDurationms)
-		.attr("height", 0)
-		.attr("y", 210)
-		.on("end", hold);
-		 
-};
+//.on("end", hold);
+		  */
+//};
