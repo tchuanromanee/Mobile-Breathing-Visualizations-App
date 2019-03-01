@@ -44,7 +44,8 @@ var xscale = d3.scaleLinear()
 var omega = -.22
 function line_maker( data, speed )
 {
-    var freq = Math.PI*.4 + 3 * omega * data.index // * 3000
+   // var freq = Math.PI*.4 + 3 * omega * data.index // * 3000
+   var freq = 3000;
     var svgline = d3.line()
     .x(function(d,i)
     {
@@ -53,7 +54,7 @@ function line_maker( data, speed )
     .y(function(d,i)
     {
         var theta = freq * d/m * Math.PI * 4 
-        //console.log("sin", Math.sin(theta), d)
+			//console.log("sin", Math.sin(theta), d)
         var y = data.height * (Math.sin(theta + (n-data.index) * .1 * speed * .18 ));
         //console.log ("y", y)
         return y
@@ -72,7 +73,7 @@ function lineEnter(d, i) {
     .append("svg:path")
       .attr("class", "path")
       //attr("transform", function(_, i) { return "translate(" + [0, h - spacing * d.index] + ")"; })
-    .attr("transform", "translate(100,100)")
+    .attr("transform", "translate(0,100)")
     .attr("d", function(d,i) {
               return line_maker( d, 0 ) 
             }
