@@ -10,6 +10,37 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/style.css">
+   <script type="text/javascript">
+        $(document).ready(function() {
+            $('#submit').click(  function () {
+				var seq = makeid(4);
+                var firstVis = seq[1];
+
+                $.ajax({
+                    url: 'localhost',    //Your api url
+                    type: 'PUT',   //type is any HTTP method
+                    data: {
+                        firstVis: firstVis
+                    },      //Data as js object
+                    success: function () {
+                    }
+                })
+                ;
+
+            });
+        });
+		
+		function makeid(length) {
+	  var text = "";
+	  var possible = "1234";
+
+	  for (var i = 0; i < length; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	  return text;
+	}
+
+    </script>
 </head>
 <body>
 
@@ -34,6 +65,9 @@
 			</div>
 			<div class="col-10 col-sm-10 col-md-10 col-lg-10 text-left" id="maincontent"> 
 				  Welcome to the main screen of our mobile breathing visualizations tool!
+				  <form>
+					<input id="submit" type="button"  value="Start">
+				  </form>
 			</div>
 			<div class="col-sm-1 sidenav">
 		  </div>
