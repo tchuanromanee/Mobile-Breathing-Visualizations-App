@@ -1,23 +1,21 @@
-//var width = 960,
-   // height = 500,
-    //start = Date.now();
+//template = https://bl.ocks.org/mbostock/1642874
 
 
 var waveColor = "#50b2cf";
-
 var totalTimems = 30000;
 var numPhases = 0;
-var phase = 0;
 var phaseDurationms = 4000; // 4 sec per phase
 var totalNumPhases = totalTimems / phaseDurationms;
 
+var phase = "Tap to Start";
+d3.select("p").html(phase);       // update phase text
 
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
 	.attr("width", 960)
 	.attr("height", 500)
-	.attr("id", "#visContainer");
-//	.on("mousedown", inhale);
+	.attr("id", "#visContainer")
+	.on("mousedown", startAll);
 
 var n = 10;
 var inhaleData = d3.range(n);//map(random);
@@ -62,7 +60,7 @@ g.append("g")
     .attr("class", "axis axis--y")
     .call(d3.axisLeft(y));
 
-	
+function startAll() {
 g.append("g")
     .attr("clip-path", "url(#clip)")
   .append("path")
@@ -72,10 +70,10 @@ g.append("g")
     .duration(500)
     .ease(d3.easeLinear)
     .on("start", tick);
+}
 
 function tick() {
-
-
+	updatePhase();
   // Redraw the line.
   d3.select(this)
       .attr("d", line)
@@ -91,7 +89,33 @@ function tick() {
   var newNum = data.shift();
   // Push a new data point onto the back.
   data.push(newNum);
+}
 
+function updatePhase() {
+	if (data[0] == 0 && data[1] == 1) {
+		phase = "Inhale";
+		d3.select("p").html(phase);
+		return;
+	}
+	else if (data[0] == 10 && data[1] == 9) {
+		phase = "Exhale";
+		d3.select("p").html(phase);
+		return;
+	}
+	else if (data[0] == 10 && data[1] == 10) {
+		phase = "Hold";
+		d3.select("p").html(phase);
+		return;
+	}
+	else if (data[0] == 0 && data[1] == 0) {
+		phase = "Hold";
+		d3.select("p").html(phase);
+		return;
+	}
+	else {
+		phase = phase;
+		return;
+	}
 }
 
 
@@ -105,28 +129,8 @@ function tick() {
 	.style("stroke", "black")
 	.style("stroke-width", "5");
 
-anchorx1 = 120;
-anchorx2 = 0;
-	
- var inhaleLine = svgContainer.append("line")
-	.attr("x1", anchorx1)
-	.attr("y1", 50)
-	.attr("x2", anchorx2)
-	.attr("y2", 150)				
-	.style("stroke", waveColor)
-	.style("stroke-width", "3");
-
-var phase = "Tap to Start";
-d3.select("p").html(phase);       // update phase text
 
 function inhale(){
-	numPhases++;
-	if (numPhases >= totalNumPhases) {
-		phase = "Exercise Completed";
-		d3.select("p").html(phase);
-		return;
-	}
-	phase = "Inhale";
 	anchorx1 = 20;
 	anchorx2 = 0;
 	d3.select("p").html(phase);
@@ -137,27 +141,4 @@ function inhale(){
       .attr("x2",anchorx2);
 	//.on("end", hold);
 };
-
-
-function hold() {
-	numPhases++;
-	phase = "Hold";
-	d3.select("p").html(phase);
-
-	if (overlayRectangle.attr("height") == 200 && overlayRectangle.attr("y") == 10) {
-		//inhale then hold, then time for exhale
-		
-		overlayRectangle.transition().delay(phaseDurationms).on("end",exhale);
-	}
-	else {
-		overlayRectangle.transition().delay(phaseDurationms).on("end",inhale);
-	}
-}
-
-function exhale(){
-	numPhases++;
-	phase = "Exhale";
-	d3.select("p").html(phase);
-//.on("end", hold);
-}
 */
