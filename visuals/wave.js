@@ -17,15 +17,6 @@ d3.select("p").html(phase);       // update phase text
 	.attr("id", "#visContainer")
 	.on("mousedown", startAll);
 
-  //Draw the steady line
- var steadyLine = svgContainer.append("line")
-	.attr("x1", 0)
-	.attr("y1", 0)
-	.attr("x2", 0)
-	.attr("y2", 200)				
-	.style("stroke", "black")
-	.style("stroke-width", "2");
-
 var n = 10;
 var inhaleData = d3.range(n);//map(random);
 var holdInData = [10,10,10,10,10,10,10,10,10,10];
@@ -54,12 +45,23 @@ var line = d3.line()
     .x(function(d, i) { return x(i); })
     .y(function(d, i) { return y(d); });
 
+	
+  //Draw the steady line
+ var steadyLine = svgContainer.append("line")
+	.attr("x1", margin.left)
+	.attr("y1", 0)
+	.attr("x2", margin.left)
+	.attr("y2", height*.6)				
+	.style("stroke", "black")
+	.style("stroke-width", "2");
+
 g.append("defs").append("clipPath")
     .attr("id", "clip")
   .append("rect")
     .attr("width", width)
     .attr("height", height);
 
+/* // Axes: Uncomment this block for debugging purposes
 g.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + y(0) + ")")
@@ -68,7 +70,7 @@ g.append("g")
 g.append("g")
     .attr("class", "axis axis--y")
     .call(d3.axisLeft(y));
-
+*/
 function startAll() {
 	if (phase == "Tap to Start") {
 		g.append("g")
