@@ -22,31 +22,14 @@ var totalNumPhases = totalTimems / phaseDurationms;
 var n = 10;
 var inhaleData = d3.range(n);//map(random);
 var holdInData = [10,10,10,10,10,10,10,10,10,10];
-console.log(inhaleData);
 var exhaleData = d3.range(n).reverse();
 var holdOutData = [0,0, 0, 0,0,0,0,0,0,0];
 
 var data = inhaleData.concat(holdInData, exhaleData, holdOutData);
-console.log(data);
 var num = 0;
 var maxNum = 10;
 
-function updateNum() {
-	console.log(num);
-	if (phase == "inhale" && num < maxNum) {
-			num++;
-			return num;
-	}
-	else if (phase == "inhale" && num == maxNum) {
-		phase = "hold";
-		num--;
-		return num;
-	}
-	else {
-		return 0;
-	}
-}
-	
+
 var margin = {top: 20, right: 20, bottom: 20, left: 40},
     width = +svgContainer.attr("width") - margin.left - margin.right,
     height = +svgContainer.attr("height") - margin.top - margin.bottom,
