@@ -1,6 +1,6 @@
-var width = 960,
-    height = 500,
-    start = Date.now();
+//var width = 960,
+   // height = 500,
+    //start = Date.now();
 
 
 var waveColor = "#50b2cf";
@@ -14,10 +14,105 @@ var totalNumPhases = totalTimems / phaseDurationms;
 
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
-	//.attr("width", 200)
-	.attr("height", 250)
+	.attr("width", 960)
+	.attr("height", 500)
 	.attr("id", "#visContainer");
+//	.on("mousedown", inhale);
+
+var n = 10;
+var inhaleData = d3.range(n);//map(random);
+var holdInData = [10,10,10,10,10,10,10,10,10,10];
+console.log(inhaleData);
+var exhaleData = d3.range(n).reverse();
+var holdOutData = [0,0, 0, 0,0,0,0,0,0,0];
+
+var data = inhaleData.concat(holdInData, exhaleData, holdOutData);
+console.log(data);
+var num = 0;
+var maxNum = 10;
+
+function updateNum() {
+	console.log(num);
+	if (phase == "inhale" && num < maxNum) {
+			num++;
+			return num;
+	}
+	else if (phase == "inhale" && num == maxNum) {
+		phase = "hold";
+		num--;
+		return num;
+	}
+	else {
+		return 0;
+	}
+}
 	
+var margin = {top: 20, right: 20, bottom: 20, left: 40},
+    width = +svgContainer.attr("width") - margin.left - margin.right,
+    height = +svgContainer.attr("height") - margin.top - margin.bottom,
+    g = svgContainer.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleLinear()
+    .domain([0, n - 1])
+    .range([0, width]);
+
+var y = d3.scaleLinear()
+    .domain([-10, 10])
+    .range([height, 0]);
+
+var line = d3.line()
+    .x(function(d, i) { return x(i); })
+    .y(function(d, i) { return y(d); });
+
+g.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+g.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + y(0) + ")")
+    .call(d3.axisBottom(x));
+
+g.append("g")
+    .attr("class", "axis axis--y")
+    .call(d3.axisLeft(y));
+
+	
+g.append("g")
+    .attr("clip-path", "url(#clip)")
+  .append("path")
+    .datum(data)
+    .attr("class", "line")
+  .transition()
+    .duration(500)
+    .ease(d3.easeLinear)
+    .on("start", tick);
+
+function tick() {
+
+
+  // Redraw the line.
+  d3.select(this)
+      .attr("d", line)
+      .attr("transform", null);
+
+  // Slide it to the left.
+  d3.active(this)
+      .attr("transform", "translate(" + x(-1) + ",0)")
+    .transition()
+      .on("start", tick);
+
+  // Pop the old data point off the front.
+  var newNum = data.shift();
+  // Push a new data point onto the back.
+  data.push(newNum);
+
+}
+
+
+/*	
   //Draw the steady line
  var steadyLine = svgContainer.append("line")
 	.attr("x1", 100)
@@ -26,182 +121,17 @@ var totalNumPhases = totalTimems / phaseDurationms;
 	.attr("y2", 200)				
 	.style("stroke", "black")
 	.style("stroke-width", "5");
-	 var lines = [ ];
 
-var n = 1;
-var m = 70;
-console.log(d3.range(n));
-for (i in d3.range(n))
-{
-    var speed = .001 * 1 * 4;
-
-    var data = d3.range(m) 
-    lines.push({ 
-        //radius: 65*i, 
-        width: 5, 
-        height: 15,
-        speed: speed,
-        //speed: speed_scale(i),
-        index: i,
-        data: data
-    })
-
-}
-
-var xscale = d3.scaleLinear()
-    .domain([0,m])
-    .range([0, width])
-
-var omega = -.22
-function line_maker( data, speed )
-{
-   // var freq = Math.PI*.4 + 3 * omega * data.index // * 3000
-   var freq = 3000;
-    var svgline = d3.line()
-    .x(function(d,i)
-    {
-        return xscale(d);
-    })
-    .y(function(d,i)
-    {
-		
-		numPhases++;
-
-        var theta = freq * d/m * Math.PI * 4 ;
-			//console.log("sin", Math.sin(theta), d)
-			
-		if (numPhases % 100 != 0 && phase == 0) { // inhale
-			var y = data.height * (Math.sin(theta + (n-data.index) * .1 * speed * .18 ));
-		
-		}
-		else if (numPhases % 100 == 0 && (phase == 0 || phase == 2)) {
-				phase = 1; // hold
-			//	debugger;
-				var y = data.height * (n-data.index) * .1 * speed * .18;
-		}
-		else if (numPhases == 100 && phase == 1) { // exhale
-				phase = 2; // exhale
-				var y = data.height--;
-				y = y * (n-data.index) * .1 * speed * .18;
-				
-		}
-		else {
-			var y = 1;
-			phase = 0;
-			//console.log("hold after ex");
-		}
-		//LEFT OFF:
-		/* if (data.height < 100 && numPhases % 4 == 0) {
-			y = data.height + 1;
-		}
-		else if ( data.height == 100 && numPhases % 4 == 0) {
-			numPhases++; // phase is hold
-			y = data.height;
-		}
-		else if (data.height == 0) {
-			numPhases++;
-			y = data.height;
-		}
-		else {
-			y = data.height - 1;
-		}
-		console.log(data.height); */
-        //console.log ("y", y)
-        return y;
-    });
-    svgline.curve(d3.curveBasis);
-    return svgline(data.data);
-}
-
-
-
-//var spacing = 26;
-function lineEnter(d, i) {
-
-    //console.log("line enter", d)
-  d3.select(this).selectAll("path.path")
-      .data([d])
-      .enter()
-    .append("svg:path")
-      .attr("class", "path")
-      //attr("transform", function(_, i) { return "translate(" + [0, h - spacing * d.index] + ")"; })
-    .attr("transform", "translate(0,100)")
-    .attr("d", function(d,i) {
-              return line_maker( d, 0 ) 
-            }
-        )
-      .attr("stroke-width", function(e,i) { return e.width;})
-      .attr("stroke", waveColor)
-      .attr("fill", "none")
-
-}
-
-var line = svgContainer.selectAll("g.line")
-    .data(lines)
-  .enter().append("svg:g")
-    .attr("class", "line")
-    .each(lineEnter);
-
-
-var sm = .39 
-
-var color = d3.scaleLinear()
-    .domain([-1, 1])
-    .interpolate(d3.interpolateRgb)
-    .range(['#fff', '#000'])
-
-var opacity = d3.scaleLinear()
-    .domain([0, n])
-    .range([1, .4])
-
-
-b = 1;
-d3.timer(function() {
- // if(pause) return false;
-  var elapsed = Date.now() - start
-  var damp = .3
-
-  rotate = function(d,i) { 
-  var speed = sm * d.speed * elapsed * .1;
-    return "rotate(" + speed + ")"; 
-  };
-
-  line = d3.select("g.line path")
-      .attr("d", function(d,i) {
-             //var speed = a * d.speed * elapsed + .01 * d.index
-             var speed = sm * .08 * elapsed + d.index * 4;
-             return line_maker( d, speed );
-        })
-      .attr("stroke-opacity", function(d,i) { return opacity(d.index);})
-        
-
-});
-/* 	  //Draw the wave path
- var curvedPath = svgContainer.append("path")
-	.style("stroke", "black")
-	.style("stroke-width", "4")
-	.on("mousedown", inhale);
-  
-  
- var lineGenerator = d3.line().curve(d3.curveCardinal);
- 
- var points = [
-  [0, 80],
-  [100, 100],
-  [200, 30],
-  [300, 50],
-  [400, 40],
-  [500, 80]
-];
-
-var pathData = lineGenerator(points);
-// pathData is "M0,80L100,100L200,30L300,50L400,40L500,80"
-
-curvedPath
-  .attr('d', pathData);
-		 
-
-
+anchorx1 = 120;
+anchorx2 = 0;
+	
+ var inhaleLine = svgContainer.append("line")
+	.attr("x1", anchorx1)
+	.attr("y1", 50)
+	.attr("x2", anchorx2)
+	.attr("y2", 150)				
+	.style("stroke", waveColor)
+	.style("stroke-width", "3");
 
 var phase = "Tap to Start";
 d3.select("p").html(phase);       // update phase text
@@ -214,7 +144,14 @@ function inhale(){
 		return;
 	}
 	phase = "Inhale";
+	anchorx1 = 20;
+	anchorx2 = 0;
 	d3.select("p").html(phase);
+	 inhaleLine.transition()
+      .ease(d3.easeLinear)
+      .duration(phaseDurationms)
+      .attr("x1",anchorx1)
+      .attr("x2",anchorx2);
 	//.on("end", hold);
 };
 
@@ -239,5 +176,5 @@ function exhale(){
 	phase = "Exhale";
 	d3.select("p").html(phase);
 //.on("end", hold);
-		  */
-//};
+}
+*/
