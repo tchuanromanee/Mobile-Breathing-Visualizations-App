@@ -17,6 +17,15 @@ d3.select("p").html(phase);       // update phase text
 	.attr("id", "#visContainer")
 	.on("mousedown", startAll);
 
+  //Draw the steady line
+ var steadyLine = svgContainer.append("line")
+	.attr("x1", 0)
+	.attr("y1", 0)
+	.attr("x2", 0)
+	.attr("y2", 200)				
+	.style("stroke", "black")
+	.style("stroke-width", "2");
+
 var n = 10;
 var inhaleData = d3.range(n);//map(random);
 var holdInData = [10,10,10,10,10,10,10,10,10,10];
@@ -61,15 +70,17 @@ g.append("g")
     .call(d3.axisLeft(y));
 
 function startAll() {
-g.append("g")
-    .attr("clip-path", "url(#clip)")
-  .append("path")
-    .datum(data)
-    .attr("class", "line")
-  .transition()
-    .duration(500)
-    .ease(d3.easeLinear)
-    .on("start", tick);
+	if (phase == "Tap to Start") {
+		g.append("g")
+			.attr("clip-path", "url(#clip)")
+		  .append("path")
+			.datum(data)
+			.attr("class", "line")
+		  .transition()
+			.duration(500)
+			.ease(d3.easeLinear)
+			.on("start", tick);
+	}
 }
 
 function tick() {
@@ -117,28 +128,3 @@ function updatePhase() {
 		return;
 	}
 }
-
-
-/*	
-  //Draw the steady line
- var steadyLine = svgContainer.append("line")
-	.attr("x1", 100)
-	.attr("y1", 0)
-	.attr("x2", 100)
-	.attr("y2", 200)				
-	.style("stroke", "black")
-	.style("stroke-width", "5");
-
-
-function inhale(){
-	anchorx1 = 20;
-	anchorx2 = 0;
-	d3.select("p").html(phase);
-	 inhaleLine.transition()
-      .ease(d3.easeLinear)
-      .duration(phaseDurationms)
-      .attr("x1",anchorx1)
-      .attr("x2",anchorx2);
-	//.on("end", hold);
-};
-*/
