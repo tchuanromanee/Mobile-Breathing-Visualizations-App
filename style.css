@@ -1,5 +1,5 @@
 body {
-    background-color: #EEEEEE;
+    background-color: #FFFFFF;
     font-size: 12pt;
     font-family: sans-serif, arial;
 }
@@ -34,16 +34,4 @@ polyline{
 /* styling for the donut slices*/
 path {
     shape-rendering: geometricPrecision;
-}
-
-/* Make the percentage on the text labels bold*/
-.labelName tspan {
-    font-style: normal;
-    font-weight: 700;
-}
-
-/* In biology we generally italicise species names. */
-.labelName {
-    font-size: 0.8em;
-    font-style: italic;
 }
