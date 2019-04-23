@@ -13,46 +13,6 @@
 	<!--   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"> -->
   <link rel="stylesheet" href="/style.css">
-   <script type="text/javascript">
-        $(document).ready(function() {
-            $('#submit').click(  function () {
-				// generate array of random numbers between 1-4 for vis order
-				var order = []
-				while(order.length < 4){
-					var r = Math.floor(Math.random()*4) + 1;
-					if(order.indexOf(r) === -1) order.push(r);
-				}
-                var firstVis = order[1];
-
-                jQuery.each( [ "put", "delete" ], function( i, method ) {
-				  jQuery[ method ] = function( url, data, callback, type ) {
-					if ( jQuery.isFunction( data ) ) {
-					  type = type || callback;
-					  callback = data;
-					  data = undefined;
-					}
-
-					return jQuery.ajax({
-					  url: url,
-					  type: method,
-					  dataType: type,
-					  data: data,
-					  success: callback
-					});
-				  };
-				});
-
-            });
-        });
-		$(document).ready(function() {
-            $('#submit').click(  function () {
-				$.put('http://localhost:8080/', {text:'new text'}, function(result){
-				console.log(result);
-		});
-		});
-		});
-
-    </script>
 </head>
 <body>
 	<nav class="navbar bg-dark navbar-dark">
