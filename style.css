@@ -2,6 +2,7 @@ body {
     background-color: #FFFFFF;
     font-size: 12pt;
     font-family: sans-serif, arial;
+	overflow: visible;
 }
 
 
@@ -14,12 +15,14 @@ body {
     background-color: white;
     width: 60%;
     text-align: justify;
+	overflow: visible;
 }
 
 /* Add shadow effect to chart. If you don't like it, get rid of it. */
 svg {
     -webkit-filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.3) );
     filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.25) );
+	overflow: visible;
 }
 
 /*Styling for the lines connecting the labels to the slices*/
