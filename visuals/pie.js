@@ -1,7 +1,8 @@
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
-	.attr("width", 960)
-	.attr("height", 500);
+	.attr("width", "100%")
+	.attr("height", "100%")
+	.on("mousedown", startAll);
 
 var width = 960,
     height = 500,
@@ -28,8 +29,7 @@ var inhaleArcElem = svgContainer.append("path")
     .datum({endAngle: Math.PI/2})
     .attr("transform", "translate(100,100)")
 	.style("fill", inhaleColor)
-	.attr("d", inhaleArc)
-	.on("mousedown", inhale);
+	.attr("d", inhaleArc);
 	
 // Draw inhale hold arc	
 var inhaleHoldArc = d3.arc()
@@ -77,7 +77,7 @@ var overlayArcElem = svgContainer.append("path")
 	//.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .attr("d", arc);
 
-	var phaseParagraph = d3.select("#example").append("p");
+var phaseParagraph = d3.select("#example").append("p");
 var totalTimems = 30000;
 var numPhases = 1;
 var phaseDurationms = 4000; // 4 sec per phase
@@ -86,6 +86,12 @@ console.log(totalNumPhases);
 
 var phase = "Tap to Start";
 phaseParagraph.html(phase);       // update phase text
+
+function startAll() {
+		if (phase == "Tap to Start") {
+			inhale();
+		}
+}
 
 function inhale(){
 	
