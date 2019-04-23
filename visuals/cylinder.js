@@ -6,7 +6,8 @@ var backgroundColor = "white";
 //Make an SVG Container
  var svgContainer = d3.select("#example").append("svg")
 	.attr("width", 200)
-	.attr("height", 250);
+	.attr("height", 250)
+	.on("mousedown", startAll);
  
   //Draw the bottom background Ellipse
  var bottomBgEllipse = svgContainer.append("ellipse")
@@ -23,8 +24,7 @@ var backgroundColor = "white";
 	.attr("y", 10)
 	.attr("width", 50)
 	.attr("height", 200)				
-	.style("fill", backgroundColor)
-	.on("mousedown", inhale);
+	.style("fill", backgroundColor);
 
  //Draw the Rectangle
  var overlayRectangle = svgContainer.append("rect")
@@ -73,6 +73,11 @@ var phaseParagraph = d3.select("#example").append("p");//.style("text-align", "c
 
 //phaseParagraph.html(phase);       // update phase text
 phaseParagraph.html(phase);
+function startAll() {
+	if (phase == "Tap to Start") {
+		inhale();
+	}
+}
 
 function inhale(){
 	numPhases++;
