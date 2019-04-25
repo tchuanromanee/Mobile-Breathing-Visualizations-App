@@ -114,10 +114,7 @@ function tick() {
 }
 
 function updatePhase() {
-	if (numPhases >= totalNumPhases) {
-		console.log(numPhases);
-		console.log(data[0]);
-		console.log(data[1]);
+	if (numPhases >= totalNumPhases && data[1]==1)) {
 		phase = "Exercise Completed";
 		d3.select("p").html(phase);
 		return;
@@ -136,13 +133,13 @@ function updatePhase() {
 		d3.select("p").html(phase);
 		return;
 	}
-	else if (data[0] == 10 && data[1] == 10) {
+	else if (data[0] == 10 && data[1] == 10 && phase != "Hold") {
 		phase = "Hold";
 		numPhases++;
 		d3.select("p").html(phase);
 		return;
 	}
-	else if (data[0] == 0 && data[1] == 0) {
+	else if (data[0] == 0 && data[1] == 0 && phase != "Hold") {
 		phase = "Hold";
 		numPhases++;
 		d3.select("p").html(phase);

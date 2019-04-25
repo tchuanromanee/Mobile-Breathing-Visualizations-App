@@ -109,11 +109,8 @@ function tick() {
 }
 
 function updatePhase() {
-	console.log(numPhases);
 	if (numPhases >= totalNumPhases && data[1]==1) {
 		console.log(numPhases);
-		console.log(data[0]);
-		console.log(data[1]);
 		phase = "Exercise Completed";
 		d3.select("p").html(phase);
 		return;
