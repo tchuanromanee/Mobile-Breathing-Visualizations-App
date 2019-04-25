@@ -80,7 +80,7 @@ function startAll() {
 			.datum(data)
 			.attr("class", "line")
 		  .transition()
-			.duration(500)
+			.duration(phaseDurationms/10)
 			.ease(d3.easeLinear)
 			.on("start", tick);
 	}
