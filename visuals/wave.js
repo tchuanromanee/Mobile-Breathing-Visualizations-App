@@ -6,6 +6,7 @@ var totalTimems = 30000;
 var numPhases = 0;
 var phaseDurationms = 4000; // 4 sec per phase
 var totalNumPhases = totalTimems / phaseDurationms;
+console.log(totalNumPhases);
 
 var phase = "Tap to Start";
 d3.select("p").html(phase);       // update phase text
@@ -87,6 +88,9 @@ function startAll() {
 
 function tick() {
 	updatePhase();
+	if (phase == "Exercise Completed") {
+		return;
+	}
   // Redraw the line.
   d3.select(this)
       .attr("d", line)
@@ -105,23 +109,36 @@ function tick() {
 }
 
 function updatePhase() {
+	console.log(numPhases);
+	if (numPhases >= totalNumPhases && data[1]==1) {
+		console.log(numPhases);
+		console.log(data[0]);
+		console.log(data[1]);
+		phase = "Exercise Completed";
+		d3.select("p").html(phase);
+		return;
+	}
 	if (data[0] == 0 && data[1] == 1) {
 		phase = "Inhale";
+		numPhases++;
 		d3.select("p").html(phase);
 		return;
 	}
 	else if (data[0] == 10 && data[1] == 9) {
 		phase = "Exhale";
+		numPhases++;
 		d3.select("p").html(phase);
 		return;
 	}
-	else if (data[0] == 10 && data[1] == 10) {
+	else if (data[0] == 10 && data[1] == 10 && phase != "Hold") {
 		phase = "Hold";
+		numPhases++;
 		d3.select("p").html(phase);
 		return;
 	}
-	else if (data[0] == 0 && data[1] == 0) {
+	else if (data[0] == 0 && data[1] == 0 && phase != "Hold") {
 		phase = "Hold";
+		numPhases++;
 		d3.select("p").html(phase);
 		return;
 	}
