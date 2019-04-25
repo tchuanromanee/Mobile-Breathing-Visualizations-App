@@ -27,7 +27,6 @@ phaseParagraph.html(phase);       // update phase text
 
 
 function sphereVisualizationIn(){
-	inhaleAudio.play();
 	numPhases++;
 	if (numPhases >= totalNumPhases) {
 		phase = "Exercise Completed";
@@ -36,6 +35,7 @@ function sphereVisualizationIn(){
 	}
 	phase = "Inhale";
 	phaseParagraph.html(phase);
+	inhaleAudio.play();
     d3.select(this)
 		.style("fill", inhaleColor);
 	d3.select(this)
