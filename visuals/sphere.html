@@ -3,7 +3,6 @@
 <head>
   <title>Mobile Breathing Visualization</title>
   <script src="https://unpkg.com/vue"></script>
-  <BASE href="http://localhost:8080">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,16 +27,16 @@
 	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
 		<ul class="navbar-nav">
 		  <li class="nav-item">
-			<a class="nav-link" href="/visuals/pie.html">1</a>
+			<a class="nav-link" href="pie.html">1</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" href="/visuals/sphere.html">2</a>
+			<a class="nav-link" href="sphere.html">2</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" href="/visuals/cylinder.html">3</a>
+			<a class="nav-link" href="cylinder.html">3</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" href="/visuals/wave.html">4</a>
+			<a class="nav-link" href="wave.html">4</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" href="/audio/pie.html">5</a>
@@ -61,7 +60,7 @@
 			<div class="col-sm-1 sidenav">
 			</div>
 			<div class="col-10 col-sm-10 col-md-10 col-lg-10 text-left">
-				  <div id="example">
+				  <div id="example" class="svg">
 					<svg>
 					  <circle id = "myCircle" cx="50" cy="50" r="30" ></circle>
 					</svg>
@@ -74,6 +73,8 @@
 
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js" integrity="sha512-nNOFtIS+H0lwgdUDaPn/g1ssw3uN9AkEM7zy2wLaTQeLQNeNiitUcLpEpDIh3Z4T22MdeTNru/SQbNM4ig2rng==" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
 // Define colors
 var inhaleColor = "#9bb64b";
@@ -144,6 +145,7 @@ function sphereVisualizationOut(){
         .attr("r", 10)
     .on("end", sphereVisualizationHold);
 };
+
 
 </script>
 
